@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         ProductView view = new ProductView();
         view.menu();
-        System.out.println("hello");
+        System.out.println("hello world");
     }
 
 }
