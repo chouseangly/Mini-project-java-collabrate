@@ -6,10 +6,10 @@ import ProductManangementMVC.View.ProductView;
 
 import java.util.List;
 
-public class ProducntController {
+public class ProductController {
   private final ProjectDAO productDAO;
   private final ProductView productView;
-  public ProducntController(ProjectDAO projectDAO, ProductView productView) {
+  public ProductController(ProjectDAO projectDAO, ProductView productView) {
       this.productDAO = projectDAO;
       this.productView = productView;
   }
