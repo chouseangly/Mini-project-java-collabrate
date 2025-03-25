@@ -3,9 +3,6 @@ package ProductManangementMVC.View;
 import ProductManangementMVC.Model.Product;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.Table;
-
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class ProductView {
@@ -13,11 +10,17 @@ public class ProductView {
     {
         System.out.println("Product List");
         Table t = new Table(5, BorderStyle.UNICODE_BOX_DOUBLE_BORDER);
-        t.setColumnWidth(1,10,15);
-        t.setColumnWidth(2,10,15);
-        t.setColumnWidth(3,10,15);
-        t.setColumnWidth(4,10,15);
-        t.setColumnWidth(5,10,15);
+        t.setColumnWidth(0, 10, 15);
+        t.setColumnWidth(1, 10, 15);
+        t.setColumnWidth(2, 10, 15);
+        t.setColumnWidth(3, 10, 15);
+        t.setColumnWidth(4, 10, 15);
+        t.addCell("ID");
+        t.addCell("Name");
+        t.addCell("Unit_Price");
+        t.addCell("Qty");
+        t.addCell("Imort_Date");
+
         for(Product product : products)
         {
            t.addCell(String.valueOf(product.getId()));
