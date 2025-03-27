@@ -1,29 +1,47 @@
 package model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Product {
     private int id;
     private String name;
     private double unitPrice;
-    private int Qty;
-    private String date;
+    private int qty;
+    private Date importDate; // Change from String to Date
 
-    public Product(int id, String name, double unitPrice, int Qty, String date) {
+//    >>>>>>>>>>>>>>>>>>>>Constructor with id
+    public Product(int id, String name, double unitPrice, int qty, Date importDate) {
         this.id = id;
         this.name = name;
         this.unitPrice = unitPrice;
-        this.Qty = Qty;
-        this.date = date;
+        this.qty = qty;
+        this.importDate = importDate;
     }
 
-    public Product(String name, double unitPrice, int Qty, String date) {
+//    >>>>>>>>>>>>>>>>>>>>Constructor without id
+    public Product(String name, double unitPrice, int qty, Date importDate) {
         this.name = name;
         this.unitPrice = unitPrice;
-        this.Qty = Qty;
-        this.date = date;
+        this.qty = qty;
+        this.importDate = importDate;
     }
 
+//    >>>>>>>>>>>>>>>>>>>>>>Constructor without date (for new products)
+    public Product(String name, double unitPrice, int qty) {
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+        this.importDate = new Date(System.currentTimeMillis()); // Default to current date
+    }
+
+    public Product(int id, String name, double unitPrice, int qty) {
+        this.id = id;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+    }
+
+//    >>>>>>>>>>>>>>>>>>>>>Getters
     public int getId() {
         return id;
     }
@@ -34,12 +52,13 @@ public class Product {
         return unitPrice;
     }
     public int getQty() {
-        return Qty;
+        return qty;
     }
-    public String getDate() {
-        return date;
+    public Date getImportDate() {
+        return importDate;
     }
 
+//    >>>>>>>>>>>>>>>>>>>>>>>>Setters
     public void setId(int id) {
         this.id = id;
     }
@@ -50,20 +69,19 @@ public class Product {
         this.unitPrice = unitPrice;
     }
     public void setQty(int qty) {
-        this.Qty = qty;
+        this.qty = qty;
     }
-    public void setDate(String date) {
-        this.date = date;
+    public void setImportDate(Date importDate) {
+        this.importDate = importDate;
     }
 
+//    >>>>>>>>>>>>>>>>>>>>>>>>>> To String
     @Override
     public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", UnitPrice=" + unitPrice +
-                ", Qty=" + Qty +
-                ", data=" + date +
-                '}';
+        return id +
+                "," + name +
+                "," + unitPrice +
+                "," + qty +
+                "," + importDate;
     }
 }
