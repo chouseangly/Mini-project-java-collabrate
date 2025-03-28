@@ -29,6 +29,7 @@ public class ProductController {
         this.scanner = new Scanner(System.in);
         this.productDao = new ProductDaoImpl();
         this.arrProducts = new ArrayList<>();
+        this.arrProducts2 = new ArrayList<>();
     }
 
     public void menu() {
@@ -289,6 +290,7 @@ public class ProductController {
                 String table = t.render();
                 System.out.println(table);
                 System.out.println("\t1. Name\t\t2. Unit Price\t\t3. Qty\t\t4. All Field\t\t5. Exit");
+                System.out.println("Choose an option : ");
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
@@ -551,6 +553,7 @@ public void delete() {
         for (Product p : arrProducts) {
             productDao.addProduct(p);
         }
+        System.out.println("Product restore successfully");
     }
 }
 

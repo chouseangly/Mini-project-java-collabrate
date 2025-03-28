@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 
 public class ProductDaoImpl implements ProductDao {
@@ -206,7 +208,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void backUp() {
-        String file1 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file1.txt";
+        String file1 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file2.svc";
         String sql = "Select * from products";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file1));
              Connection connection = Connect.getConnection();
@@ -323,22 +325,40 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     public List<Product> reStore() {
-        String deleteSql = "DELETE FROM your_table";
-        String resetSql = "ALTER TABLE your_table AUTO_INCREMENT = 1";
+        String deleteSql = "DELETE FROM products";
+        String resetSql = "ALTER SEQUENCE products_id_seq RESTART WITH 1";
 
         try (Connection conn = Connect.getConnection();
              Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(deleteSql);
+            stmt.executeUpdate(deleteSql);
             System.out.println("All records deleted from the table.");
-            ResultSet rs2 = stmt.executeQuery(resetSql);
+            stmt.executeUpdate(resetSql);
             System.out.println("Auto-increment value reset to 1.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+//        List<Product> products = new ArrayList<>();
+//        String file2 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file2.svc";
+//        try (BufferedReader reader = new BufferedReader(new FileReader(file2))) {
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] parts = line.split(",");
+//                int id = Integer.parseInt(parts[0]);
+//                String name = parts[1];
+//                double price = Double.parseDouble(parts[2]);
+//                int quantity = Integer.parseInt(parts[3]);
+//                Date date = new Date(Long.parseLong(parts[4]));
+//                products.add(new Product(id, name, price, quantity, date));
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Error loading data from file: " + e.getMessage());
+//        }
+//        return products;
         List<Product> products = new ArrayList<>();
-        String file1 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file1.txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(file1))) {
+        String file2 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file1.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file2))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
@@ -346,12 +366,20 @@ public class ProductDaoImpl implements ProductDao {
                 String name = parts[1];
                 double price = Double.parseDouble(parts[2]);
                 int quantity = Integer.parseInt(parts[3]);
-                Date date = new Date(Long.parseLong(parts[4]));
-                products.add(new Product(id, name, price, quantity, date));
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                java.util.Date date = null;
+//                try {
+//                    date = dateFormat.parse(parts[4]);   // Convert string date to Date object
+//                } catch (ParseException e) {
+//                    System.out.println("Error parsing date: " + parts[4]);
+//                    e.printStackTrace();
+//                }
+                products.add(new Product(id, name, price, quantity));
             }
         } catch (IOException e) {
             System.out.println("Error loading data from file: " + e.getMessage());
         }
+
         return products;
     }
 }
