@@ -13,7 +13,7 @@ public class ProductController {
     private final Scanner scanner = new Scanner(System.in);
     private final ProjectDAO projectDAO = new ProjectDAOImpl();
     private final ProductView productView = new ProductView();
-
+    private List<Product> updatedProducts = new ArrayList<>();
     private int ROWS_PER_PAGE = 5; // Rows per page
     private int currentPage = 1;  // Current page number
     private List<Product> temporaryProducts = new ArrayList<>(); // Temporary storage for products
@@ -31,8 +31,8 @@ public class ProductController {
                 case "U": updateProduct(); break;
                 case "D": deleteProduct(); break;
                 case "S": searchProduct(); break;
-                case "SA": saveToDatabase(); break;
-                case "UN": unsaveProduct(); break;
+                case "SA": save(); break;
+                case "UN": unsaved(); break;
                 case "BA": backupProducts(); break;
                 case "RE": restoreProducts(); break;
                 case "N": nextPage(); break;
@@ -60,7 +60,46 @@ public class ProductController {
         int totalRecords = projectDAO.getTotalProductCount(); // Fetch total count of products from the database
         productView.displayProductsFromDatabase(products, currentPage, ROWS_PER_PAGE, totalRecords); // Display the fetched products
     }
+    public void save() {
+        if (temporaryProducts.isEmpty()) {
+            System.out.println("No products in the collection to save.");
+            return;
+        }
 
+        System.out.println("\'ui\' for save inserted products from collection to database and \'uu\' for save updated products to database or \'b\' for back to menu");
+        System.out.print("Enter your choice: ");
+        String choice = scanner.nextLine().trim().toUpperCase();
+
+        switch (choice) {
+            case "UI":
+                saveUi(); // Save products from the collection to the database
+                break;
+            case "UU":
+                saveUu(); // Save updated products to the database
+                break;
+            case "B":
+                return;
+            default:
+                System.out.println("Invalid choice!");
+        }
+    }
+    private void saveUi() {
+        if (temporaryProducts.isEmpty()) {
+            System.out.println("No products in the collection to save to the database.");
+            return;
+        }
+
+        try {
+            for (Product product : temporaryProducts) {
+                projectDAO.addProduct(product); // Save each product to the database
+            }
+            System.out.println("Products saved to the database successfully.");
+            temporaryProducts.clear(); // Clear the collection after saving to the database
+        } catch (Exception e) {
+            System.out.println("An error occurred while saving products to the database.");
+            e.printStackTrace();
+        }
+    }
 
     private void saveToDatabase() {
         if (temporaryProducts.isEmpty()) {
@@ -87,8 +126,50 @@ public class ProductController {
             System.out.println("Product not found.");
         }
     }
+    public void unsaved() {
+        System.out.println("\'ui\' for unsaved inserted products and \'uu\' for unsaved updated products or \'b\' for back to menu");
+        System.out.print("Enter your option: ");
+        String option = scanner.nextLine().trim().toUpperCase();
 
+        switch (option) {
+            case "UI":
+                unsaveUi(); // Display unsaved inserted products
+                break;
+            case "UU":
+                unsaveUu(); // Display unsaved updated products
+                break;
+            case "B":
+                return; // Return to the main menu
+            default:
+                System.out.println("Invalid option!");
+        }
+    }
+    private void unsaveUi() {
+        System.out.print("Enter the ID of the inserted product to unsave: ");
+        int id = Integer.parseInt(scanner.nextLine());
 
+        // Attempt to delete the product from the database
+        boolean isDeleted = projectDAO.deleteProduct(id);
+
+        if (isDeleted) {
+            System.out.println("Inserted product with ID " + id + " successfully unsaved from the database.");
+        } else {
+            System.out.println("No inserted product with ID " + id + " found in the database.");
+        }
+    }
+    private void unsaveUu() {
+        System.out.print("Enter the ID of the updated product to unsave: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        // Attempt to delete the product from the database
+        boolean isDeleted = projectDAO.deleteProduct(id);
+
+        if (isDeleted) {
+            System.out.println("Updated product with ID " + id + " successfully unsaved from the database.");
+        } else {
+            System.out.println("No updated product with ID " + id + " found in the database.");
+        }
+    }
     private void backupProducts() {
         if (temporaryProducts.isEmpty()) {
             System.out.println("No products in the collection to backup.");
@@ -118,6 +199,7 @@ public class ProductController {
 
                 // Replace the old product with the updated one
                 temporaryProducts.set(i, updatedProduct);
+                updatedProducts.add(updatedProduct); // Add to updatedProducts list
                 System.out.println("Product updated successfully in the collection.");
                 return;
             }
@@ -125,7 +207,23 @@ public class ProductController {
 
         System.out.println("Product with ID " + id + " not found in the collection.");
     }
+    private void saveUu() {
+        if (updatedProducts.isEmpty()) {
+            System.out.println("No updated products to save to the database.");
+            return;
+        }
 
+        try {
+            for (Product product : updatedProducts) {
+                projectDAO.updateProduct(product); // Save updated product to the database
+            }
+            System.out.println("Updated products saved to the database successfully.");
+            updatedProducts.clear(); // Clear the updatedProducts list after saving
+        } catch (Exception e) {
+            System.out.println("An error occurred while saving updated products to the database.");
+            e.printStackTrace();
+        }
+    }
 
     private void deleteProduct() {
         int id = productView.promptForProductId("Enter the product ID to delete: ");
