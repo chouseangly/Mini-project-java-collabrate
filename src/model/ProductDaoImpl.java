@@ -8,7 +8,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-//Hello World
+//Hi
 public class ProductDaoImpl implements ProductDao {
     private Connection connection;
 
