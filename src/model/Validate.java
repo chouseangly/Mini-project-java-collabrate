@@ -4,8 +4,47 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Validate {
-    public static String validateOption() {
-        Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+
+//    <<<<<<<<<<<<<<<<<<Validate Integer Input>>>>>>>>>>>>>>>>>>>>
+    public String validateIntOption() {
+        String regex = "^\\d+$";
+        String input = "";
+        boolean valid = false;
+        while (!valid) {
+            input = scanner.nextLine();
+            valid = Pattern.matches(regex, input);
+        }
+        return input;
+    }
+
+//<<<<<<<<<<<<<<<<<<<Validate Char Input>>>>>>>>>>>>>>>>
+    public String validateChartOption() {
+        String regex = "^[a-zA-Z]+$";
+        String input = "";
+        boolean valid = false;
+
+        while (!valid) {
+            input = scanner.nextLine().trim();
+            valid = Pattern.matches(regex, input);
+        }
+        return input.toLowerCase();
+    }
+
+//<<<<<<<<<<<<<<<<<<<<Validate Double Price Inptu>>>>>>>>>>>>>
+    public int validatePrice() {
+        String regex = "^\\d+(\\.\\d{1,2})?$";
+        String input = "";
+        boolean valid = false;
+        while (!valid) {
+            input = scanner.nextLine();
+            valid = Pattern.matches(regex, input);
+        }
+        return Integer.parseInt(input);
+    }
+
+//    <<<<<<<<<<<<<<<<<<<<<<<<<<Validate File Name Input>>>>>>>>>>>>>>>>>>
+    public String validateFileName() {
         String regex = "^[a-zA-Z0-9_-]+$";
         String input = "";
         boolean valid = false;
@@ -13,21 +52,18 @@ public class Validate {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        scanner.close();
         return input;
     }
 
-    public static int validateNumber() {
-        Scanner scanner = new Scanner(System.in);
-        String regex = "^[0-9]*$";
+//    <<<<<<<<<<<<<<<<<<<<<<<Validate Product Name Input>>>>>>>>>>>>>>>>>>>
+    public String validateProductName() {
+        String regex = "^[a-zA-Z0-9_-]+$";
         String input = "";
         boolean valid = false;
         while (!valid) {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        scanner.close();
-        return Integer.parseInt(input);
+        return input;
     }
-
 }

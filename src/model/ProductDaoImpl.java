@@ -169,7 +169,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<Product>();
-        String slectQuery = "SELECT * FROM products";
+        String slectQuery = "SELECT * FROM products ORDER BY id ASC ";
         try (Connection connection = Connect.getConnection();
              PreparedStatement stmt = connection.prepareStatement(slectQuery);
              Statement stmt1 = connection.createStatement();
@@ -207,36 +207,32 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void backUp() {
-        String file1 = "C:\\Users\\USER\\Desktop\\IntelliJ\\StockManagementSystem\\src\\File\\file2.svc";
-        String sql = "Select * from products";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file1));
-             Connection connection = Connect.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql);
-             Statement stmt1 = connection.createStatement();
-             ResultSet rs = stmt1.executeQuery(sql)) {
+    public void backUp(String fileName) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
+        String directoryPath = "C:/Users/USER/Desktop/IntelliJ/StockManagementSystem/src/File/";
+        String fullFilePath = directoryPath + fileName + "_" + timeStamp + ".csv";
+        File directory = new File(directoryPath);
+        String sql = "SELECT * FROM products";
+        try (Connection connection = Connect.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullFilePath))) {
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     String name = rs.getString("name");
                     double price = rs.getDouble("price");
                     int quantity = rs.getInt("qty");
                     Date date = rs.getDate("import_date");
-                    writer.write(String.valueOf(id));
-                    writer.write(',');
-                    writer.write(name);
-                    writer.write(',');
-                    writer.write(Double.toString(price));
-                    writer.write(',');
-                    writer.write(Integer.toString(quantity));
-                    writer.write(',');
-                    writer.write(date.toString());
-                    writer.newLine();
-
+                    writer.write(id + "," + name + "," + price + "," + quantity + "," + date + "\n");
                 }
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+                System.out.println("Backup file created: " + fullFilePath);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            System.out.println("An error occurred while fetching data from the database.");
+            ex.printStackTrace();
         }
     }
 
@@ -292,7 +288,7 @@ public class ProductDaoImpl implements ProductDao {
         List<Product> products = new ArrayList<>();
         int offset = (page - 1) * rowsPerPage;
 
-        String query = "SELECT * FROM products LIMIT ? OFFSET ?";
+        String query = "SELECT * FROM products ORDER BY id ASC LIMIT ? OFFSET ?";
         try (Connection conn = Connect.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, rowsPerPage);
@@ -324,6 +320,7 @@ public class ProductDaoImpl implements ProductDao {
         return totalRecords;
     }
 
+    @Override
     public List<Product> reStore() {
         String deleteSql = "DELETE FROM products";
         String resetSql = "ALTER SEQUENCE products_id_seq RESTART WITH 1";

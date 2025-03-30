@@ -10,7 +10,7 @@ public interface ProductDao {
     void addProduct(Product product);
     void updateProduct(int id, String name, double unitPrice, int qty);
     String getProductById(int id);
-    void backUp();
+    void backUp(String fileName);
     void updateName(int id, String name);
     void updateUnitPrice(int id, double unitPrice);
     void updateQty(int id, int qty);

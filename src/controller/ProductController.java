@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-//hh
+
 public class ProductController {
     static List<Product> products;
     static int currentPage = 1;
@@ -319,7 +319,8 @@ public class ProductController {
 
     public void updateName() {
         System.out.println("Enter name to update: ");
-        String name = scanner.nextLine();
+        String name = scanner.next();
+//        String name = scanner.nextLine();
         updateType = "name";
         products.get(id).setName(name);
         arrProducts2.add(new Product(id, name,products.get(id).getUnitPrice(),products.get(id).getQty(), products.get(id).getImportDate()));
@@ -340,6 +341,7 @@ public class ProductController {
     }
     public void updateAll() {
         System.out.println("Enter name to update: ");
+        scanner.nextLine();
         String name = scanner.nextLine();
         System.out.println("Enter unitPrice to update: ");
         double unitPrice = scanner.nextDouble();
@@ -543,7 +545,9 @@ public void delete() {
 
 //    <<<<<<<<<<<<<<<<<<< Backup >>>>>>>>>>>>>>>>>>
     public void backUp() {
-        productDao.backUp();
+        System.out.print("Enter file name to back up: ");
+        String filename = scanner.nextLine();
+        productDao.backUp(filename);
     }
 
 //    <<<<<<<<<<<<<<<<<<<< Restore >>>>>>>>>>>>>>>
