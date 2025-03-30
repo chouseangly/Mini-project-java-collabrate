@@ -22,6 +22,7 @@ public class ProductController {
     public int num = 0;
     public int id;
     private ProductDaoImpl productDao;
+    private Validate validate;
     private Scanner scanner;
     public int isSave=0;
 
@@ -30,6 +31,7 @@ public class ProductController {
         this.productDao = new ProductDaoImpl();
         this.arrProducts = new ArrayList<>();
         this.arrProducts2 = new ArrayList<>();
+        this.validate = new Validate();
     }
 
     public void menu() {
@@ -39,7 +41,8 @@ public class ProductController {
             showAllProducts();
             productView.view_Menu_Describe();
             System.out.println("=> Choose on option() : ");
-            String choice = scanner.nextLine();
+//            String choice = scanner.nextLine();
+            String choice = validate.validateChartOption();
             switch (choice) {
                 case "N":
                 case "n":
@@ -213,11 +216,11 @@ public class ProductController {
         int size = products.size();
         System.out.println("Enter product id: " + (size +1));
         System.out.println("Enter product name: ");
-        String name = scanner.next();
+        String name = validate.validateProductName();
         System.out.println("Enter product unitPrice: ");
-        double unitPrice = scanner.nextDouble();
+        double unitPrice = validate.validatePrice();
         System.out.println("Enter product qty: ");
-        int qty = scanner.nextInt();
+        int qty = validate.validateIntOption();
         arrProducts.add(new Product(name, unitPrice, qty));
         System.out.println("add to array");
     }
@@ -225,7 +228,7 @@ public class ProductController {
     public void read() {
         System.out.print("Enter id to update: ");
         id = 0;
-        id = scanner.nextInt();
+        id = validate.validateIntOption();
         boolean has = false;
         for (Product product : products) {
             if (product.getId() == id) {
@@ -261,7 +264,7 @@ public class ProductController {
     public void update() {
         System.out.print("Enter id to update: ");
         id = 0;
-        id = scanner.nextInt();
+        id = validate.validateIntOption();
         boolean has = false;
         for (Product product : products) {
             if (product.getId() == id) {
@@ -319,7 +322,7 @@ public class ProductController {
 
     public void updateName() {
         System.out.println("Enter name to update: ");
-        String name = scanner.next();
+        String name = validate.validateProductName();
 //        String name = scanner.nextLine();
         updateType = "name";
         products.get(id).setName(name);
@@ -327,14 +330,14 @@ public class ProductController {
     }
     public void updateqQty() {
         System.out.println("Enter qty to update: ");
-        int qty = scanner.nextInt();
+        int qty = validate.validateIntOption();
         updateType = "qty";
         products.get(id).setQty(qty);
         arrProducts2.add(new Product(id, products.get(id).getName(),products.get(id).getUnitPrice(),qty,products.get(id).getImportDate()));
     }
     public void updateUnitPrice() {
         System.out.println("Enter unitPrice to update: ");
-        double unitPrice = scanner.nextDouble();
+        double unitPrice = validate.validatePrice();
         updateType = "unitPrice";
         products.get(id).setUnitPrice(unitPrice);
         arrProducts2.add(new Product(id, products.get(id).getName(),unitPrice,products.get(id).getQty(),products.get(id).getImportDate()));
@@ -342,11 +345,11 @@ public class ProductController {
     public void updateAll() {
         System.out.println("Enter name to update: ");
         scanner.nextLine();
-        String name = scanner.nextLine();
+        String name = validate.validateProductName();
         System.out.println("Enter unitPrice to update: ");
-        double unitPrice = scanner.nextDouble();
+        double unitPrice = validate.validatePrice();
         System.out.println("Enter qty to update: ");
-        int qty = scanner.nextInt();
+        int qty = validate.validateIntOption();
         updateType = "all";
         products.get(id).setName(name);
         products.get(id).setUnitPrice(unitPrice);
@@ -357,14 +360,14 @@ public class ProductController {
 //    <<<<<<<<<<<<<< Delete >>>>>>>>>>>>>>>>>
 public void delete() {
     System.out.print("Enter id to delete: ");
-    int id = scanner.nextInt();
+    int id = validate.validateIntOption();
     productDao.deleteProduct(id);
 }
 
 //    <<<<<<<<<<<<<<<Search>>>>>>>>>>>>>>>>>>
     public void search() {
         System.out.println("Enter name to search : ");
-        String name = scanner.nextLine();
+        String name = validate.validateProductName();
         products = productDao.getProductsByName(name);
         CellStyle numberStyle = new CellStyle(CellStyle.HorizontalAlign.center);
         CellStyle columnStyle = new CellStyle(CellStyle.HorizontalAlign.center);
@@ -405,7 +408,7 @@ public void delete() {
         int size = products.size();
         System.out.println("\'ui\' for save for save insert product and \'uu\' for save update product or \'b\' for back to menu");
         System.out.print("Enter your choice : ");
-        String choice = scanner.nextLine();
+        String choice = validate.validateChartOption();
         switch (choice) {
             case "ui":
             case "Ui":
@@ -461,7 +464,7 @@ public void delete() {
     public void unsaved() {
         System.out.println("\'ui\' for unsaved of insert product and \'uu\' for unsaved of update product or \'b\' for back to menu");
         System.out.println("Enter your option: ");
-        String option = scanner.nextLine();
+        String option = validate.validateChartOption();
         switch (option) {
             case "ui":
             case "Ui":
