@@ -7,7 +7,7 @@ public class Validate {
     private static final Scanner scanner = new Scanner(System.in);
 
 //    <<<<<<<<<<<<<<<<<<Validate Integer Input>>>>>>>>>>>>>>>>>>>>
-    public String validateIntOption() {
+    public int validateIntOption() {
         String regex = "^\\d+$";
         String input = "";
         boolean valid = false;
@@ -15,7 +15,7 @@ public class Validate {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        return input;
+        return Integer.parseInt(input.trim());
     }
 
 //<<<<<<<<<<<<<<<<<<<Validate Char Input>>>>>>>>>>>>>>>>
@@ -28,7 +28,7 @@ public class Validate {
             input = scanner.nextLine().trim();
             valid = Pattern.matches(regex, input);
         }
-        return input.toLowerCase();
+        return input.toLowerCase().trim();
     }
 
 //<<<<<<<<<<<<<<<<<<<<Validate Double Price Inptu>>>>>>>>>>>>>
@@ -40,7 +40,7 @@ public class Validate {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        return Integer.parseInt(input);
+        return Integer.parseInt(input.trim());
     }
 
 //    <<<<<<<<<<<<<<<<<<<<<<<<<<Validate File Name Input>>>>>>>>>>>>>>>>>>
@@ -52,7 +52,7 @@ public class Validate {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        return input;
+        return input.trim();
     }
 
 //    <<<<<<<<<<<<<<<<<<<<<<<Validate Product Name Input>>>>>>>>>>>>>>>>>>>
@@ -64,6 +64,6 @@ public class Validate {
             input = scanner.nextLine();
             valid = Pattern.matches(regex, input);
         }
-        return input;
+        return input.trim();
     }
 }
