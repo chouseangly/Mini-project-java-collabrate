@@ -346,7 +346,7 @@ public class ProductDAOImpl implements ProductDAO {
             return;
         }
 
-        String query = "UPDATE stockmanagement SET name = ?, unitprice = ?, qty = ?, import_date = ? WHERE id = ? order by id ASC";
+        String query = "UPDATE stockmanagement SET name = ?, unitprice = ?, qty = ?, import_date = ? WHERE id = ?";
         int totalUpdated = 0;
 
         try (Connection connection = Connect.getConnection();
@@ -422,7 +422,7 @@ public class ProductDAOImpl implements ProductDAO {
                     table.addCell("Qty", align);
                     table.addCell("Import Date", align);
 
-                    // Show only unique products (if duplicates exist)
+                   
                     for (Product product : uniqueProducts.values()) {
                         table.addCell(String.valueOf(product.getId()), align);
                         table.addCell(product.getName(), align);
@@ -451,7 +451,7 @@ public class ProductDAOImpl implements ProductDAO {
                         return false;
                     }
                 } else {
-                    System.out.println(RED+"No product found with ID: "+RESET + id);
+                    System.out.println(RED+"No product found with ID: "+ id + RESET );
                     return false;
                 }
             } catch (SQLException e) {
