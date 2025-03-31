@@ -1,20 +1,30 @@
 package ProductManangementMVC.Model;
+
 import java.time.LocalDate;
+
 public class Product {
     private int id;
     private String name;
-    private double UnitPrice;
-    private int Qty;
-    private LocalDate data;
-    public Product(int id, String name, double UnitPrice, int Qty, LocalDate data) {
-        this.id = id;
+    private double unitPrice;
+    private int qty;
+    private LocalDate date;
+
+    public Product(String name, double unitPrice, int qty, LocalDate date) {
         this.name = name;
-        this.UnitPrice = UnitPrice;
-        this.Qty = Qty;
-        this.data = data;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+        this.date = date != null ? date : LocalDate.now();
     }
 
+    public Product(int id, String name, double unitPrice, int qty, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.qty = qty;
+        this.date = date != null ? date : LocalDate.now();
+    }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -32,27 +42,27 @@ public class Product {
     }
 
     public double getUnitPrice() {
-        return UnitPrice;
+        return unitPrice;
     }
 
     public void setUnitPrice(double unitPrice) {
-        UnitPrice = unitPrice;
+        this.unitPrice = unitPrice;
     }
 
     public int getQty() {
-        return Qty;
+        return qty;
     }
 
     public void setQty(int qty) {
-        Qty = qty;
+        this.qty = qty;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override
@@ -60,9 +70,12 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", UnitPrice=" + UnitPrice +
-                ", Qty=" + Qty +
-                ", data=" + data +
+                ", unitPrice=" + unitPrice +
+                ", qty=" + qty +
+                ", date=" + date +
                 '}';
     }
 }
+
+
+
