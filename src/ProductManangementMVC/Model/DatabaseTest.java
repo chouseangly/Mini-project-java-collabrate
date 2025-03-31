@@ -4,9 +4,11 @@ package ProductManangementMVC.Model;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import static ProductManangementMVC.Model.Connect.getConnection;
+
 public class DatabaseTest {
-    public static void main(String[] args) {
-        Connection connection = Connect.getConnection();
+    public static void main(String[] args) throws SQLException {
+        Connection connection =getConnection();
 
         if (connection != null) {
             System.out.println("Database connection successful!");
